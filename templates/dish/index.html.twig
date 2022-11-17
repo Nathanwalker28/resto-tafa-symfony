@@ -1,56 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DishController!
+{% block title %}Toutes nos plats
 {% endblock %}
 
 {% block body %}
-
 	<div class="container">
-
-		<div class="container py-3">
-			<div class="h1">Vos plats préférées</div>
-			<!-- Card Start -->
-			<div class="row">
-				<div class="col-md-8">
-					{% for dish in dishes %}
-						<div class="card my-5 p-3">
-							<div class="row">
-								<div class="col-md-8">
-									<div class="card-block px-6">
-										<h2 class="card-title"> {{ dish.name}} </h2>
-                                        <p class="card-text"><strong>Ingredients : </strong> {{ dish.ingredients }}</p>
-										<p class="card-text"><strong>Description : </strong> {{ dish.description }}</p>
-										<h6 class="card-text">
-                                            <strong>Prix :</strong>
-											{{ dish.price }}
-											<small>
-												MGA
-											</small>
-										</h6>
-
-										<a href="#" class="mt-auto btn btn-primary  ">Commander</a>
+		<div class="row">
+			{% for dish in dishes %}
+				{% if dish.quantity > 0 %}
+					<div class="col-md-6">
+						<div class="card my-3" style="max-width: 540px; height:300px">
+							<div class="row g-0">
+								<div class="col-md-5">
+									<div class="bg-image hover-zoom ripple" data-mdb-ripple-color="light" style="height: 300px;">
+										<img src="{{ asset("uploads/images/"~dish.getCoverImage()) }}" class="w-100 h-100 img-fluid"/>
+										<a href="#!">
+											<div class="mask">
+												<div class="d-flex justify-content-start align-items-end h-100">
+													<h5>
+														<span class="badge bg-danger ms-2">{{dish.price}} MGA</span>
+													</h5>
+												</div>
+											</div>
+											<div class="hover-overlay">
+												<div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
+											</div>
+										</a>
 									</div>
 								</div>
+								<div class="col-md-7">
+									<div class="card-body">
+										<h5 class="card-title">{{ dish.name }} <span class="badge bg-warning ms-2">{{dish.quantity}}</span></h5>
+										<hr>
+										<p class="card-text">
+											<strong class="text-danger">Ingredients : </strong>{{ dish.ingredients}}
+										</p>
+										<p class="card-text">
+											{{ dish.description}}
+										</p>
 
-								<div class="col-md-4">
-									<img src="{{ asset( dish.coverImage) }}" alt="" class="img-fluid">
+										<a href="{{ path('app_dish_show', {'id': dish.id } ) }}" class="btn btn-dark">Acheter</a>
+									</div>
 								</div>
-
 							</div>
 						</div>
-					{% endfor %}
 
-				</div>
-
-			</div>
-
-
-			<!-- End of card -->
+					</div>
+				{% endif %}
+			{% endfor %}
 
 		</div>
-
-
 	</div>
-
-
 {% endblock %}

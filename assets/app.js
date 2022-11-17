@@ -9,6 +9,7 @@
 import './styles/app.css';
 
 require('bootstrap');
+require('./js/mdb.min.js');
 
 // start the Stimulus application
 import './bootstrap';

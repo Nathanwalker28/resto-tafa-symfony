@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DishRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,6 +48,21 @@ class Dish
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $coverImage;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $quantity;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Ordered::class, mappedBy="dish")
+     */
+    private $ordereds;
+
+    public function __construct()
+    {
+        $this->ordereds = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +137,48 @@ class Dish
     public function setCoverImage(?string $coverImage): self
     {
         $this->coverImage = $coverImage;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(?int $quantity): self
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ordered>
+     */
+    public function getOrdereds(): Collection
+    {
+        return $this->ordereds;
+    }
+
+    public function addOrdered(Ordered $ordered): self
+    {
+        if (!$this->ordereds->contains($ordered)) {
+            $this->ordereds[] = $ordered;
+            $ordered->setDish($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrdered(Ordered $ordered): self
+    {
+        if ($this->ordereds->removeElement($ordered)) {
+            // set the owning side to null (unless already changed)
+            if ($ordered->getDish() === $this) {
+                $ordered->setDish(null);
+            }
+        }
 
         return $this;
     }

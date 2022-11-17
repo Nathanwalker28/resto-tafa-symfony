@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OrderedController!
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+    
+		<h1 class="text-danger">Votre commande est :</h1>
+
+		<div class="table-responsive-md">
+			<table class="table">
+				<thead>
+					<th scope="col"></th>
+					<th scope="col">Nom du plat</th>
+					<th scope="col">Quantité</th>
+					<th scope="col">Prix unitaire (Ariary)</th>
+				</thead>
+				<tbody>
+					<td>
+                        <img src="{{ asset("uploads/images/"~dish.getCoverImage()) }}" class="w-50 h-50 img-fluid"/>
+                    </td>
+					<td>{{ dish.name }}</td>
+                    <td>
+						{{ form_start(form) }}
+						{{ form_widget(form.quantity) }}
+						{{ form_end(form) }}
+					</td>
+					<td>{{dish.price}}</td>
+				</tbody>
+			</table>
+		</div>
+
+		<h4>Montant de votre commande :</h4>
+</fieldset>
+	</div>
+
+
+{% endblock %}
