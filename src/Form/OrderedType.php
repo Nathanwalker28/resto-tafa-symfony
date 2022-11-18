@@ -14,6 +14,7 @@ class OrderedType extends AbstractType
     {
         $builder
             ->add('quantity', IntegerType::class, [
+                'label' => false,
                 'attr' => [
                     'placeholder' => 'combien en voulez vous?',
                 ],

@@ -73,6 +73,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $ordereds;
 
+    public function __toString()
+    {
+        return $this->lastname;
+    }
+
     public function __construct()
     {
         $this->ordereds = new ArrayCollection();

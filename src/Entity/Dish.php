@@ -6,9 +6,12 @@ use App\Repository\DishRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=DishRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Dish
 {
@@ -21,21 +24,25 @@ class Dish
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le nom du plat ne doit pas être vide")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez ajouter une description")
      */
     private $description;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="Veuillez renseigner les ingredients")
      */
     private $ingredients;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Positive
      */
     private $price;
 
@@ -51,6 +58,7 @@ class Dish
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Positive(message="il y a une erreur")
      */
     private $quantity;
 
@@ -58,6 +66,20 @@ class Dish
      * @ORM\OneToMany(targetEntity=Ordered::class, mappedBy="dish")
      */
     private $ordereds;
+
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        $this->quantity = $this->quantity - $this-> $this->ordered->quantity;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 
     public function __construct()
     {

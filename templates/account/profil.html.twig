@@ -1,0 +1,48 @@
+{% extends "base.html.twig" %}
+
+
+{% block body %}
+
+	<div class="container">
+		<div class="row">
+
+
+			{% for ordered in ordereds %}
+				{% if ordered %}
+
+					<div class="col-md-4 m-5">
+						<div class="card">
+							<ul class="list-group">
+								<li class="list-group-item disabled" aria-disabled="true">
+									<strong>
+										Commande n° :
+									</strong>
+									{{ ordered. id}}</li>
+								<li class="list-group-item">
+									<strong>Quantité :
+									</strong>
+									{{ ordered.quantity }}</li>
+								<li class="list-group-item">
+									<strong>Prix :</strong>
+									{{ ordered.amount }}
+									MGA</li>
+								<li class="list-group-item">
+									<strong>Date :
+									</strong>
+									{{ ordered.createdAt |format_datetime() }}
+								</li>
+							</ul>
+
+						</div>
+					</div>
+
+
+				{% else %}
+                    
+
+                {% endif %}
+			{% endfor %}
+
+		</div>
+	</div>
+{% endblock %}

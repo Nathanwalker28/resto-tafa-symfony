@@ -2,14 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Ordered;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\RegistrationType;
+use App\Repository\DishRepository;
+use App\Repository\OrderedRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -48,6 +52,7 @@ class AccountController extends AbstractController
 
     /**
      * @Route("/login", name="app_account_login")
+     * 
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -63,8 +68,26 @@ class AccountController extends AbstractController
         return $this->render('account/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
+
+    /**
+     * 
+     * @Route("account/profil", name="app_account_profil")
+    */
+    public function show(OrderedRepository $orderedRepository, DishRepository $dishRepository): Response
+    {
+
+        $ordereds = $orderedRepository->findByuserOrder($this->getUser()->getId());
+
+
+       
+        return $this->render("account/profil.html.twig", [
+            'ordereds' => $ordereds
+        ]);
+    }
+
     /**
      * @Route("/logout", name="app_logout")
+     * @IsGranted("ROLE_USER")
      */
     public function logout(): void
     {

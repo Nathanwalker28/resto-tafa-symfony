@@ -5,36 +5,50 @@
 
 {% block body %}
 
+
 	<div class="container">
-    
-		<h1 class="text-danger">Votre commande est :</h1>
+
+		<h1 class="text-danger mt-5">Veuillez valider votre commande !</h1>
+
+
+		{% for label, messages in app.flashes %}
+					{% for message in messages %}
+						<div class="alert alert-dismissible alert-{{label}}">
+							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+							{{message}}
+						</div>
+					{% endfor %}
+				{% endfor %}
+		
 
 		<div class="table-responsive-md">
 			<table class="table">
+				{{ form_start(form) }}
 				<thead>
 					<th scope="col"></th>
 					<th scope="col">Nom du plat</th>
-					<th scope="col">Quantité</th>
+					<th scope="col">Quantité (disponible : {{ dish.quantity }})</th>
 					<th scope="col">Prix unitaire (Ariary)</th>
+					<th scope="col">Prix Total</th>
 				</thead>
 				<tbody>
 					<td>
-                        <img src="{{ asset("uploads/images/"~dish.getCoverImage()) }}" class="w-50 h-50 img-fluid"/>
-                    </td>
-					<td>{{ dish.name }}</td>
-                    <td>
-						{{ form_start(form) }}
-						{{ form_widget(form.quantity) }}
-						{{ form_end(form) }}
+						<img src="{{ asset("uploads/images/"~dish.getCoverImage()) }}" class="w-50 h-50 img-fluid"/>
 					</td>
-					<td>{{dish.price}}</td>
+					<td>{{ dish.name }}</td>
+					<td>
+
+						{{ form_widget(form.quantity) }}
+
+					</td>
+					<td id="unit_price">{{dish.price}}</td>
+					<td id="amount"> </td>
+					<td>
+						<button type="submit" class="btn btn-success">Valider</button>
+					</td>
 				</tbody>
 			</table>
+			{{ form_end(form) }}
 		</div>
-
-		<h4>Montant de votre commande :</h4>
-</fieldset>
 	</div>
-
-
 {% endblock %}

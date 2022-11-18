@@ -3,10 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\OrderedRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=OrderedRepository::class)
+ * @ORM\HasLifecycleCallbacks()
+ * 
  */
 class Ordered
 {
@@ -32,7 +37,7 @@ class Ordered
     /**
      * @ORM\Column(type="datetime")
      */
-    private $createdAd;
+    private $createdAt;
 
     /**
      * @ORM\Column(type="float")
@@ -41,8 +46,20 @@ class Ordered
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive
      */
     private $quantity;
+
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        if(empty($this->amount)) {
+            $this->amount = $this->dish->getPrice() * $this->getQuantity();
+        }
+    }
 
     public function getId(): ?int
     {
@@ -73,14 +90,14 @@ class Ordered
         return $this;
     }
 
-    public function getCreateAd(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->createAd;
+        return $this->createdAt;
     }
 
-    public function setCreateAd(\DateTimeInterface $createAd): self
+    public function setCreatedAd(\DateTimeInterface $createdAt): self
     {
-        $this->createAd = $createAd;
+        $this->createdAt = $createdAt;
 
         return $this;
     }

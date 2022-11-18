@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class DishController extends AbstractController
 {
@@ -28,6 +29,7 @@ class DishController extends AbstractController
 
     /**
      * @Route("/dish/create", name="app_dish_create")
+     * @isGranted("ROLE_USER")
      */
     public function create(Request $request, FileUploader $fileUploader, EntityManagerInterface $manager): Response
     {   
