@@ -16,6 +16,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class DishController extends AbstractController
 {
     /**
+     * Page pour afficher toutes les plats
+     * 
+     * 
      * @Route("/dish", name="app_dish")
      */
     public function index(DishRepository $dishRepository): Response
@@ -28,6 +31,9 @@ class DishController extends AbstractController
     
 
     /**
+     * Création d'un nouveau plat
+     * 
+     * 
      * @Route("/dish/create", name="app_dish_create")
      * @isGranted("ROLE_USER")
      */

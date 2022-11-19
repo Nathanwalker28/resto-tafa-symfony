@@ -20,6 +20,8 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class AccountController extends AbstractController
 {
     /**
+     * Permettre à l'utilisateur de s'inscrire
+     * 
      * @Route("/register", name="app_account_register")
      */
     public function register(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $encoder): Response 
@@ -51,6 +53,8 @@ class AccountController extends AbstractController
 
 
     /**
+     * Permettre à l'utilisateur de se connecter
+     * 
      * @Route("/login", name="app_account_login")
      * 
      */
@@ -70,22 +74,24 @@ class AccountController extends AbstractController
 
 
     /**
+     * Afficher toutes les achats que l'utilisateur a effectué
      * 
-     * @Route("account/profil", name="app_account_profil")
+     * 
+     * @Route("account/order", name="app_account_profil")
     */
     public function show(OrderedRepository $orderedRepository, DishRepository $dishRepository): Response
     {
 
         $ordereds = $orderedRepository->findByuserOrder($this->getUser()->getId());
 
-
-       
-        return $this->render("account/profil.html.twig", [
+        return $this->render("account/order.html.twig", [
             'ordereds' => $ordereds
         ]);
     }
 
     /**
+     * deconnexion
+     * 
      * @Route("/logout", name="app_logout")
      * @IsGranted("ROLE_USER")
      */

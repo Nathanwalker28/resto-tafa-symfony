@@ -44,6 +44,7 @@
 					<td id="unit_price">{{dish.price}}</td>
 					<td id="amount"> </td>
 					<td>
+						<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 						<button type="submit" class="btn btn-success">Valider</button>
 					</td>
 				</tbody>

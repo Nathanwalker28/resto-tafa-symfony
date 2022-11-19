@@ -63,4 +63,18 @@ class DishRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    /**
+     * findMaxQuantity
+     *
+     * @return Dish[]
+     */
+    public function findMaxQuantitySold(): array
+    {
+        return $this->createQueryBuilder('o')
+            ->orderBy('o.quantitySold', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
 }

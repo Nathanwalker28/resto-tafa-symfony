@@ -6,12 +6,17 @@ use App\Repository\DishRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
  * @ORM\Entity(repositoryClass=DishRepository::class)
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(
+ * fields={"name"}, 
+ *      message = "Ce plat existe déja, veuillez vérifier!"
+ * )
  */
 class Dish
 {
@@ -29,7 +34,7 @@ class Dish
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank(message="Veuillez ajouter une description")
      */
     private $description;
@@ -67,13 +72,18 @@ class Dish
      */
     private $ordereds;
 
-    
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $quantitySold;
+
+
     /**
      * @ORM\PrePersist
      */
     public function prePersist()
     {
-        $this->quantity = $this->quantity - $this-> $this->ordered->quantity;
+        $this->quantity = $this->quantity - $this->$this->ordered->quantity;
     }
 
     public function __toString()
@@ -201,6 +211,18 @@ class Dish
                 $ordered->setDish(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getQuantitySold(): ?int
+    {
+        return $this->quantitySold;
+    }
+
+    public function setQuantitySold(?int $quantitySold): self
+    {
+        $this->quantitySold = $quantitySold;
 
         return $this;
     }

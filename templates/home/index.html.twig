@@ -6,11 +6,37 @@
 {% block body %}
 
 	<div class="container">
-		<div class="p-5 m-5 bg-light rounded-3">
+		<div class="p-5 m-5 bg-light rounded-5">
 			<div class="container-fluid py-5">
-				<h1 class="display-5 fw-bold">Custom jumbotron</h1>
-				<p class="col-md-8 fs-4">Using a series of utilities, you can create this jumbotron, just like the one in previous versions of Bootstrap. Check out the examples below for how you can remix and restyle it to your liking.</p>
-				<button class="btn btn-dark btn-lg" type="button">Example button</button>
+				<div class="row">
+					<div class="col-md-8">
+						<h1 class="display-5 fw-bold">Meilleurs Burger</h1>
+						<p class="col-md-8 fs-4">Using a series of utilities, you can create this jumbotron, just like the one in previous versions of Bootstrap. Check out the examples below for how you can remix and restyle it to your liking.</p>
+						<a class="btn btn-danger btn-lg" type="button" href="{{path('app_dish')}}">Voir plus</a>
+					</div>
+					<div class="col-md-3">
+						<img src="/images/pexels-moises-ribeiro-11462873.jpg" alt="" class="img-fluid">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="p-5 m-5 bg-light rounded-3">
+			<h1 class="display-5 fw-bold">Nos plats populaires</h1>
+
+			<div class="row">
+				{% for dish in dishes %}
+					<div class="col-md-4">
+						<div class="card bg-dark text-danger">
+							<img src="{{ asset("uploads/images/"~ dish.getCoverImage()) }}" class="card-img" alt="...">
+							<div class="card-img-overlay">
+								<h5 class="card-title">{{ dish.name }}</h5>
+								<p class="card-text">{{ dish.price}}
+									MGA</p>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
 			</div>
 		</div>
 	</div>

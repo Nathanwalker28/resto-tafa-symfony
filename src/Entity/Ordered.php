@@ -46,7 +46,8 @@ class Ordered
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\Positive
+     * @Assert\NotBlank(message="smdfkf")
+     * @Assert\Positive(message="Votre choix n'est pas disponible")
      */
     private $quantity;
 

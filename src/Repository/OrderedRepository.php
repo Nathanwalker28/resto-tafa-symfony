@@ -39,28 +39,42 @@ class OrderedRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Ordered[] Returns an array of Ordered objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('o.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Ordered[] Returns an array of Ordered objects
+     */
+    public function findByquantity($value): array
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.quantity = :val')
+            ->setParameter('val', $value)
+            ->orderBy('o.id', 'ASC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?Ordered
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Ordered
+    //    {
+    //        return $this->createQueryBuilder('o')
+    //            ->andWhere('o.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
+
+    
+    /**
+     * findMaxQuantity
+     *
+     * @return Ordered[]
+     */
+    public function findMaxQuantity(): array
+    {
+        return $this->createQueryBuilder('o')
+            ->orderBy('o.quantity', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
 }
