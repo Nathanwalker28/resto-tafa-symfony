@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CartController!
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+
+		{% if cartData | length > 0 %}
+			<table class="table">
+				<thead>
+					<th scope="col">Nom du plat</th>
+					<th scope="col">Prix unitaire (Ariary)</th>
+					<th scope="col">Quantité</th>
+					<th scope="col">Prix Total</th>
+					<th scope="col"></th>
+				</thead>
+				<tbody>
+					{% for data in cartData %}
+						<tr>
+							<td>{{ data.dish.name}}</td>
+							<td>{{ data.dish.price}}</td>
+							<td>
+								<a href="{{ path('cart_decrease', {'id' : data.dish.id })  }}" class="btn btn-primary"> 
+									<i class="fas fa-angle-left"></i>
+								</a>
+							{{ data.quantity}}
+							
+								<a href="{{ path('cart_add', {'id': data.dish.id }) }}" class="btn btn-primary"> <i class="fas fa-angle-right"></i> </a>
+							</td>
+							<td>{{ data.quantity * data.dish.price }}</td>
+							<td>
+								<a href="{{ path('cart_delete', {'id' : data.dish.id }) }}"> 
+									<i class="fas fa-trash text-danger" ></i>
+								</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+
+				<tbody>
+					<tr>
+						<td  colspan="3" class="ml-auto"> Total </td>
+						<td> <strong> {{ totalPrice}} MGA</strong>  </td>
+					</tr>
+				</tbody>
+			</table>
+		{% else %}
+			<div class="alert alert-warning my-5">votre panier est vide</div>
+		{% endif %}
+
+
+		
+	</div>
+{% endblock %}

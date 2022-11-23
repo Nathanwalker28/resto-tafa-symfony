@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class OrderedController extends AbstractController
 {
@@ -24,7 +25,7 @@ class OrderedController extends AbstractController
      * @IsGranted("ROLE_USER")
      * 
      */
-    public function show(DishRepository $dishRepository, Request $request, EntityManagerInterface $manager, Dish $dish)
+    public function show(DishRepository $dishRepository, Request $request, EntityManagerInterface $manager, Dish $dish, SessionInterface $session)
     {
         $ordered = new Ordered();
 
@@ -32,7 +33,7 @@ class OrderedController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
+            
 
             if ($ordered->getQuantity() > $dish->getQuantity()) {
 

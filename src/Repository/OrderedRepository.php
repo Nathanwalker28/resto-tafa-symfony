@@ -62,19 +62,4 @@ class OrderedRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-
-    
-    /**
-     * findMaxQuantity
-     *
-     * @return Ordered[]
-     */
-    public function findMaxQuantity(): array
-    {
-        return $this->createQueryBuilder('o')
-            ->orderBy('o.quantity', 'DESC')
-            ->setMaxResults(3)
-            ->getQuery()
-            ->getResult();
-    }
 }

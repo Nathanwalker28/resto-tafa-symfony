@@ -27,7 +27,7 @@
 				<thead>
 					<th scope="col"></th>
 					<th scope="col">Nom du plat</th>
-					<th scope="col">Quantité (disponible : {{ dish.quantity }})</th>
+					<th scope="col">Quantité (disponible : {{ data.dish.quantity }})</th>
 					<th scope="col">Prix unitaire (Ariary)</th>
 					<th scope="col">Prix Total</th>
 				</thead>
@@ -38,7 +38,7 @@
 					<td>{{ dish.name }}</td>
 					<td>
 
-						{{ form_widget(form.quantity) }}
+						{{ form_widget(form) }}
 
 					</td>
 					<td id="unit_price">{{dish.price}}</td>
