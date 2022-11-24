@@ -3,15 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Dish;
+use App\Service\Cart;
 use App\Form\DishType;
+use App\Service\FileUploader;
 use App\Repository\DishRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Service\FileUploader;
-use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DishController extends AbstractController
 {
@@ -21,10 +22,11 @@ class DishController extends AbstractController
      * 
      * @Route("/dish", name="app_dish")
      */
-    public function index(DishRepository $dishRepository): Response
+    public function index(DishRepository $dishRepository, Cart $cart): Response
     {
         return $this->render('dish/index.html.twig', [
-            'dishes' => $dishRepository->findAll()
+            'dishes' => $dishRepository->findAll(),
+            'dataCart' => $cart->getCartProduct()
         ]);
     }
 

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 use App\Entity\Dish;
+use App\Service\Cart;
 use App\Entity\Ordered;
 use App\Form\OrderedType;
 use App\Repository\DishRepository;
@@ -12,8 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 /**
@@ -25,18 +26,9 @@ class CartController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(SessionInterface $session, DishRepository $dishRepository, Request $request, EntityManagerInterface $manager): Response
+    public function index(Cart $cart, DishRepository $dishRepository, Request $request, EntityManagerInterface $manager): Response
     {
-        $cart = $session->get('cart', []);
-
-        $cartData = [];
-
-        foreach ($cart as $id => $quantity) {
-            $cartData[] = [
-                'dish' => $dishRepository->find($id),
-                'quantity' => $quantity
-            ];
-        }
+        $cartData = $cart->getCartProduct();
 
         $totalPrice = 0;
 
@@ -58,17 +50,9 @@ class CartController extends AbstractController
      *
      * @Route("/add/{id}", name="add")
      */
-    public function add($id, SessionInterface $session)
+    public function add($id, Cart $cart)
     {
-        $cart = $session->get('cart', []);
-
-        if (!empty($cart[$id])) {
-            $cart[$id]++;
-        } else {
-            $cart[$id] = 1;
-        }
-
-        $session->set('cart', $cart);
+        $cart->add($id);
 
         return $this->redirectToRoute('cart_index');
     }
@@ -78,15 +62,9 @@ class CartController extends AbstractController
      *
      * @Route("/delete/{id}", name="delete")
      */
-    public function delete($id, SessionInterface $session)
+    public function delete($id, Cart $cart)
     {
-        $cart = $session->get('cart', []);
-
-        if (!empty($cart[$id])) {
-            unset($cart[$id]);
-        } 
-
-        $session->set('cart', $cart);
+        $cart->remove($id);
 
         return $this->redirectToRoute('cart_index');
     }
@@ -96,15 +74,53 @@ class CartController extends AbstractController
      *
      * @Route("/decrease/{id}", name="decrease")
      */
-    public function decrease($id, SessionInterface $session)
+    public function decrease($id, Cart $cart)
     {
-        $cart = $session->get('cart', []);
+        $cart->remove($id);
 
-        if (!empty($cart[$id])) {
-            $cart[$id]--;
-        }
+        return $this->redirectToRoute('cart_index');
+    }
+
+    
+    /**
+     * command
+     *
+     * @Route("/send", name="send")
+     */
+    public function send(Cart $cart, DishRepository $dishRepository, Request $request, EntityManagerInterface $manager)
+    {
+        $ordered = new Ordered();
+
+        $cartData = $cart->getCartProduct();
+
+        $totalPrice = 0;
+
+        foreach($cartData as $data) {
+            $ordered->setUserOrder($this->getUser());
+            $ordered->setDish($data['dish']);
+            $ordered->setCreatedAd(new \Datetime());
+
+            $data['dish']->setQuantity($data['dish']->getQuantity() - $data['quantity']);
+            $data['dish']->setQuantitySold($data['dish']->getQuantitySold() + $data['quantity']);
         
-        $session->set('cart', $cart);
+
+            $ordered->setQuantity($data['quantity']);
+
+            $manager->persist($ordered);
+            $manager->persist($data['dish']);
+
+            
+            $cart->remove($data['dish']->getId());
+            
+        }
+        $manager->flush();
+        
+        
+
+        $this->addFlash(
+            'success',
+            "Votre commande est enregistré avec succès!"
+        );
 
         return $this->redirectToRoute('cart_index');
     }

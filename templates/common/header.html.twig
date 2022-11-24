@@ -1,44 +1,49 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-			<div class="container-fluid">
-				<a class="navbar-brand" href="#"><img src="/images/logo.png" alt="logo tafa burger" width="150"></a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleDemo01" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse d-flex justify-content-between" id="navbarColor02">
-					<ul class="navbar-nav">
-						<li class="nav-item">
-							<a class="nav-link active" href="{{ path('app_home') }}">Accueil
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{{ path('app_dish') }}">Nos Menus</a>
-						</li>
-					</ul>
-					<ul class="navbar-nav">
-					{% if app.user %}
-						
-							<li class="dropdown">
-								<a class="nav-link dropdown-toggle btn btn-dark" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-									{{ app.user.lastname | capitalize }}
-								</a>
-								<div class="dropdown-menu">
-									<a class="dropdown-item" href="#">Mon Profil</a>
-									<a class="dropdown-item" href="{{ path('app_account_profil') }}">Mes Achats</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="{{ path('app_logout') }}">Se déconnecter</a>
-								</div>
-							</li>
-						
-					{% else %}
-						<li class="nav-item">
-							<a class="nav-link active" href="{{ path('app_account_register') }}">S'inscrire
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{{ path('app_account_login') }}">Se connecter</a>
-						</li>
-					{% endif %}
-					</ul>
-				</div>
-			</div>
-		</nav> 
+	<div class="container-fluid">
+		<a class="navbar-brand" href="#"><img src="/images/logo.png" alt="logo tafa burger" width="150"></a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleDemo01" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse d-flex justify-content-between" id="navbarColor02">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link active" href="{{ path('app_home') }}">Accueil
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('app_dish') }}">Nos Menus</a>
+				</li>
+			</ul>
+			<ul class="navbar-nav">
+				{% if app.user %}
+					<li class="nav-item">
+						<i class="fas fa-cart-arrow-down text-white"></i>
+					</li>
+					<li class="dropdown">
+						<a class="nav-link dropdown-toggle btn btn-dark" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+							{{ app.user.lastname | capitalize }}
+						</a>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="#">Mon Profil</a>
+							<a class="dropdown-item" href="{{ path('app_account_profil') }}">Mes Achats</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="{{ path('app_logout') }}">Se déconnecter</a>
+						</div>
+					</li>
+
+				{% else %}
+					<li>
+						<i class="far fa-cart-arrow-down"></i>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="{{ path('app_account_register') }}">S'inscrire
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('app_account_login') }}">Se connecter</a>
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+</nav>

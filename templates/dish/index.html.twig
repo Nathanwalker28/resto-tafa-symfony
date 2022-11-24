@@ -8,6 +8,9 @@
 		<div class="row">
 			{% for dish in dishes %}
 				{% if dish.quantity > 0 %}
+				
+					
+				
 					<div class="col-md-6">
 						<div class="card my-3" style="max-width: 540px; height:300px">
 							<div class="row g-0">
@@ -18,7 +21,8 @@
 											<div class="mask">
 												<div class="d-flex justify-content-start align-items-end h-100">
 													<h5>
-														<span class="badge bg-danger ms-2">{{dish.price}} MGA</span>
+														<span class="badge bg-danger ms-2">{{dish.price}}
+															MGA</span>
 													</h5>
 												</div>
 											</div>
@@ -30,23 +34,32 @@
 								</div>
 								<div class="col-md-7">
 									<div class="card-body">
-										<h5 class="card-title">{{ dish.name }} <span class="badge bg-warning ms-2">{{dish.quantity}}</span></h5>
+										<h5 class="card-title">{{ dish.name }}
+											<span class="badge bg-warning ms-2">{{dish.quantity}}</span>
+										</h5>
 										<hr>
 										<p class="card-text">
-											<strong class="text-danger">Ingredients : </strong>{{ dish.ingredients}}
+											<strong class="text-danger">Ingredients :
+											</strong>
+											{{ dish.ingredients}}
 										</p>
 										<p class="card-text">
 											{{ dish.description}}
 										</p>
-
-										<a href="{{ path('app_dish_show', {'id': dish.id } ) }}" class="btn btn-dark">Acheter</a>
-										<a href="{{ path('cart_add', {'id': dish.id }) }}" class="btn btn-primary">Ajouter au panier</a>
+										
+										{# <a href="{{ path('app_dish_show', {'id': dish.id } ) }}" class="btn btn-dark">Acheter</a> #}
+											
+												<a href="{{ path('cart_add', {'id': dish.id }) }}" class="btn btn-primary">
+													ajouter au panier
+												</a>
+											
 									</div>
 								</div>
 							</div>
 						</div>
 
 					</div>
+					
 				{% endif %}
 			{% endfor %}
 
